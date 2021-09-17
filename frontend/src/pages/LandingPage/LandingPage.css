@@ -1,0 +1,11 @@
+.landingButton {
+  width: 200px;
+  height: 55px;
+}
+
+@media only screen and (max-width: 768px) {
+  .landingButton {
+    width: 150px;
+    height: 50px;
+  }
+}
