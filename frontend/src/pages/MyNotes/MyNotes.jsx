@@ -1,10 +1,22 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { MainScreen } from '../../components';
 import { Link } from 'react-router-dom';
 import { Button, Card, Badge, Accordion } from 'react-bootstrap';
 import { MyNotesTitle } from './MyNotes.style';
-import { notes } from '../../tempData/notes';
 
 const MyNotes = () => {
+  const [notes, setNotes] = useState([]);
+
+  const fetchNotes = async () => {
+    const { data } = await axios.get('/api/notes');
+    setNotes(data);
+  };
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
   const deleteHandler = id => {
     if (window.confirm('Are you sure you want to delete')) {
       //
@@ -19,7 +31,7 @@ const MyNotes = () => {
       </Link>
 
       {notes.map(note => (
-        <Accordion>
+        <Accordion key={note._id}>
           <Card key={note._id} style={{ margin: 10 }}>
             <Card.Header style={{ display: 'flex' }}>
               <span style={MyNotesTitle}>
