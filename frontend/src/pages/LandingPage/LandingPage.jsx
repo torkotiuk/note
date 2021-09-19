@@ -22,7 +22,7 @@ const LandingPage = () => {
                 </Button>
               </Link>
 
-              <Link href="/register">
+              <Link to="/register">
                 <Button
                   size="lg"
                   className="landingButton"
