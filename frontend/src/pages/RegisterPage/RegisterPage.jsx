@@ -49,6 +49,34 @@ const RegisterPage = () => {
     }
   };
 
+  const postDetails = pics => {
+    if (!pics) {
+      return setPicMessage('Please Select an Image');
+    }
+    setPicMessage(null);
+    if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
+      console.log('jpeg or png');
+      const data = new FormData();
+      data.append('file', pics);
+      data.append('upload_preset', 'notenote');
+      data.append('cloud_name', 'dm9n53xll');
+      fetch('https://api.cloudinary.com/v1_1/dm9n53xll/image/upload', {
+        method: 'post',
+        body: data,
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          setPic(data.url.toString());
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      return setPicMessage('Please Select an Image');
+    }
+  };
+
   return (
     <MainScreen title="REGISTER">
       <div style={{ margin: '20px' }}>
@@ -102,6 +130,7 @@ const RegisterPage = () => {
           <Form.Group controlId="pic">
             <Form.Label>Profile Picture</Form.Label>
             <Form.File
+              onChange={e => postDetails(e.target.files[0])}
               id="custom-file"
               type="image/png"
               label="Upload Profile Picture"

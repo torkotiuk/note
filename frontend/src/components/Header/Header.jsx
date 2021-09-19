@@ -6,11 +6,13 @@ import {
   Form,
   FormControl,
 } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import css from './Header.module.css';
 // import logo from '../../images/note-logo.ico';
 
 const Header = () => {
+  const history = useHistory();
+
   return (
     <Navbar bg="primary" expand="lg" variant="dark">
       <Container>
@@ -35,7 +37,14 @@ const Header = () => {
             <NavDropdown title="Andrii Torkotiuk" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">My profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Logout</NavDropdown.Item>
+              <NavDropdown.Item
+                onClick={() => {
+                  localStorage.removeItem('userInfo');
+                  history.push('/');
+                }}
+              >
+                Logout
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

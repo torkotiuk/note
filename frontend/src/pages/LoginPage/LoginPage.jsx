@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { ErrorMessage, Loading, MainScreen } from '../../components';
 import axios from 'axios';
 
-const LoginPage = ({ history }) => {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   // useEffect(() => {
   //   const userInfo = localStorage.getItem('userInfo');
@@ -35,6 +36,7 @@ const LoginPage = ({ history }) => {
         config,
       );
 
+      history.push('/mynotes');
       localStorage.setItem('userInfo', JSON.stringify(data));
       setLoading(false);
     } catch (error) {
