@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { ErrorMessage, Loading, MainScreen } from '../../components';
@@ -10,6 +10,15 @@ const LoginPage = ({ history }) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // useEffect(() => {
+  //   const userInfo = localStorage.getItem('userInfo');
+
+  //   if (userInfo) {
+  //     history.push('/mynotes');
+  //   }
+  // }, [history]);
+
+  // --- begin submitHandler --- //
   const submitHandler = async e => {
     e.preventDefault();
 
@@ -25,7 +34,6 @@ const LoginPage = ({ history }) => {
         { email, password },
         config,
       );
-      console.log(data);
 
       localStorage.setItem('userInfo', JSON.stringify(data));
       setLoading(false);
@@ -34,6 +42,7 @@ const LoginPage = ({ history }) => {
       setLoading(false);
     }
   };
+  // --- end submitHandler --- //
 
   return (
     <MainScreen title="LOGIN">
