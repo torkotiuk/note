@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { Loading, MainScreen } from '../../components';
+import { ErrorMessage, Loading, MainScreen } from '../../components';
 import axios from 'axios';
 
 const LoginPage = ({ history }) => {
@@ -30,14 +30,15 @@ const LoginPage = ({ history }) => {
       localStorage.setItem('userInfo', JSON.stringify(data));
       setLoading(false);
     } catch (error) {
-      console.log(error.response.data.message);
       setError(error.response.data.message);
+      setLoading(false);
     }
   };
 
   return (
     <MainScreen title="LOGIN">
       <div style={{ margin: '20px' }}>
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
         {loading && <Loading />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="formBasicEmail">
