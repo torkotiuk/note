@@ -8,10 +8,18 @@ import {
 } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import css from './Header.module.css';
-// import logo from '../../images/note-logo.ico';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/actions/userActions';
 
 const Header = () => {
   const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    history.push('/');
+  };
 
   return (
     <Navbar bg="primary" expand="lg" variant="dark">
@@ -37,12 +45,7 @@ const Header = () => {
             <NavDropdown title="Andrii Torkotiuk" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">My profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item
-                onClick={() => {
-                  localStorage.removeItem('userInfo');
-                  history.push('/');
-                }}
-              >
+              <NavDropdown.Item onClick={logoutHandler}>
                 Logout
               </NavDropdown.Item>
             </NavDropdown>
