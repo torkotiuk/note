@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import { useEffect, useState } from 'react';
+// import axios from 'axios';
 import { MainScreen } from '../../components';
 import { Link } from 'react-router-dom';
 import { Button, Card, Badge, Accordion } from 'react-bootstrap';
 import { MyNotesTitle } from './MyNotes.style';
 
 const MyNotes = () => {
-  const [notes, setNotes] = useState([]);
+  // const [notes, setNotes] = useState([]);
 
-  const fetchNotes = async () => {
-    const { data } = await axios.get('/api/notes');
-    setNotes(data);
-  };
+  // const fetchNotes = async () => {
+  //   const { data } = await axios.get('/api/notes');
+  //   setNotes(data);
+  // };
 
-  useEffect(() => {
-    fetchNotes();
-  }, []);
+  // useEffect(() => {
+  //   fetchNotes();
+  // }, []);
+  const notes = require('../../data/notes');
 
   const deleteHandler = id => {
     if (window.confirm('Are you sure you want to delete')) {
@@ -59,10 +60,12 @@ const MyNotes = () => {
 
                 <blockquote className="blockquote mb-0">
                   {note.content}
+                  {/*  */}
                   {/* <ReactMarkdown>{note.content}</ReactMarkdown> */}
                   <footer className="blockquote-footer">
                     Created on
                     <cite title="Source Title">
+                      {/*  */}
                       {/* {note.createdAt.substring(0, 10)} */}
                     </cite>
                   </footer>
