@@ -4,21 +4,17 @@ const Note = require('../models/noteModel');
 const getNotes = asyncHandler(async (req, res) => {
   const notes = await Note.find({ user: req.user._id });
 
-  if (notes?.length === 0) {
-    res.json({
-      status: 'success',
-      code: 200,
-      message: 'There is no any notes yet',
-      data: notes,
-    });
-    return;
-  }
+  // if (notes?.length === 0) {
+  //   res.json({
+  //     status: 'success',
+  //     code: 200,
+  //     message: 'There is no any notes yet',
+  //     data: notes,
+  //   });
+  //   return;
+  // }
 
-  res.json({
-    status: 'success',
-    code: '200',
-    data: notes,
-  });
+  res.json(notes);
 });
 
 const createNote = asyncHandler(async (req, res) => {
@@ -32,19 +28,15 @@ const createNote = asyncHandler(async (req, res) => {
 
     const createdNote = await note.save();
 
-    res.status(200).json(createdNote);
+    res.status(201).json(createdNote);
   }
 });
 
 const getNoteById = asyncHandler(async (req, res) => {
-  const note = await Note.findById(req.params.id);
-
-  if (note) {
-    res.json({
-      status: 'success',
-      data: note,
-    });
-  } else {
+  try {
+    const note = await Note.findById(req.params.id);
+    res.json(note);
+  } catch (error) {
     res.status(404).json({ message: 'Note is not found' });
   }
 });
