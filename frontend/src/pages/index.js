@@ -4,6 +4,7 @@ import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import CreateNote from './CreateNote';
 import UpdateNote from './UpdateNote';
+import ProfilePage from './ProfilePage';
 
 export {
   LandingPage,
@@ -12,4 +13,5 @@ export {
   RegisterPage,
   CreateNote,
   UpdateNote,
+  ProfilePage,
 };

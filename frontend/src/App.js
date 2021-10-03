@@ -4,6 +4,7 @@ import {
   LandingPage,
   LoginPage,
   MyNotes,
+  ProfilePage,
   RegisterPage,
   UpdateNote,
 } from './pages';
@@ -20,6 +21,7 @@ const App = () => {
         <Route exact path="/" component={LandingPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} />
+        <Route path="/profile" component={ProfilePage} />
         <Route path="/createnote" component={CreateNote} />
         <Route path="/note/:id" component={UpdateNote} />
         <Route path="/mynotes" component={() => <MyNotes search={search} />} />

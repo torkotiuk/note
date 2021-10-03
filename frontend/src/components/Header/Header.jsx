@@ -8,13 +8,15 @@ import {
 } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import css from './Header.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/userActions';
 
 const Header = ({ setSearch }) => {
   const history = useHistory();
 
   const dispatch = useDispatch();
+
+  const { userInfo } = useSelector(state => state.userLogin);
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -38,18 +40,26 @@ const Header = ({ setSearch }) => {
             </Form>
           </Nav>
 
-          <Nav>
-            <Nav.Link>
-              <Link to="/mynotes">My notes</Link>
-            </Nav.Link>
-            <NavDropdown title="Andrii Torkotiuk" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">My profile</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={logoutHandler}>
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
+          {userInfo ? (
+            <Nav>
+              <Nav.Link>
+                <Link to="/mynotes">My notes</Link>
+              </Nav.Link>
+              <NavDropdown title={userInfo?.name} id="basic-nav-dropdown">
+                <NavDropdown.Item href="/profile">My profile</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={logoutHandler}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          ) : (
+            <Nav>
+              <Nav.Link>
+                <Link to="/login">Login</Link>
+              </Nav.Link>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

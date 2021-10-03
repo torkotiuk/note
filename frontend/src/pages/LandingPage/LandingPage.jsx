@@ -3,8 +3,16 @@ import { Link } from 'react-router-dom';
 
 import css from './LandingPage.module.css';
 import './LandingPage.css';
+import { useEffect } from 'react';
 
-const LandingPage = () => {
+const LandingPage = ({ history }) => {
+  useEffect(() => {
+    const userInfo = localStorage.getItem('userInfo');
+
+    if (userInfo) {
+      history.push('/mynotes');
+    }
+  }, [history]);
   return (
     <div className={css.main}>
       <Container>
