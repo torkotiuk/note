@@ -1,37 +1,69 @@
-// import { useEffect, useState } from 'react';
-// import axios from 'axios';
-import { MainScreen } from '../../components';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { ErrorMessage, Loading, MainScreen } from '../../components';
+import { Link, useHistory } from 'react-router-dom';
 import { Button, Card, Badge, Accordion } from 'react-bootstrap';
 import { MyNotesTitle } from './MyNotes.style';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteNoteAction, listNotes } from '../../redux/actions/noteActions';
 
 const MyNotes = () => {
-  // const [notes, setNotes] = useState([]);
+  const dispatch = useDispatch();
 
-  // const fetchNotes = async () => {
-  //   const { data } = await axios.get('/api/notes');
-  //   setNotes(data);
-  // };
+  const history = useHistory();
+  const { userInfo } = useSelector(state => state.userLogin);
 
-  // useEffect(() => {
-  //   fetchNotes();
-  // }, []);
-  const notes = require('../../data/notes');
+  const noteCreate = useSelector(state => state.noteCreate);
+  const { success: successCreate } = noteCreate;
+
+  const notesList = useSelector(state => state.notesList);
+  const { loading, notes, error } = notesList;
+
+  const noteUpdate = useSelector(state => state.noteUpdate);
+  const { success: successUpdate } = noteUpdate;
+
+  const noteDelete = useSelector(state => state.noteDelete);
+  const {
+    loading: deleteLoading,
+    error: deleteError,
+    success: deleteSuccess,
+  } = noteDelete;
+
+  useEffect(() => {
+    dispatch(listNotes());
+
+    if (!userInfo) {
+      history.push('/');
+    }
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    successCreate,
+    successUpdate,
+    deleteSuccess,
+  ]);
 
   const deleteHandler = id => {
     if (window.confirm('Are you sure you want to delete')) {
-      //
+      dispatch(deleteNoteAction(id));
     }
   };
   return (
-    <MainScreen title="Welcome back user123...">
+    <MainScreen title={`Welcome back ${userInfo.name}...`}>
       <Link to="/createnote">
         <Button size="lg" style={{ marginLeft: 10, marginBottom: 6 }}>
           Create New Note
         </Button>
       </Link>
+      {deleteError && (
+        <ErrorMessage variant="danger">{deleteError}</ErrorMessage>
+      )}
+      {deleteLoading && <Loading />}
 
-      {notes.map(note => (
+      {loading && <Loading />}
+      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+
+      {notes?.map(note => (
         <Accordion key={note._id}>
           <Card key={note._id} style={{ margin: 10 }}>
             <Card.Header style={{ display: 'flex' }}>
@@ -63,10 +95,9 @@ const MyNotes = () => {
                   {/*  */}
                   {/* <ReactMarkdown>{note.content}</ReactMarkdown> */}
                   <footer className="blockquote-footer">
-                    Created on
+                    Created on{' '}
                     <cite title="Source Title">
-                      {/*  */}
-                      {/* {note.createdAt.substring(0, 10)} */}
+                      {note.createdAt.substring(0, 10)}
                     </cite>
                   </footer>
                 </blockquote>
