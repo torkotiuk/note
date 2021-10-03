@@ -6,8 +6,9 @@ import { MyNotesTitle } from './MyNotes.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteNoteAction, listNotes } from '../../redux/actions/noteActions';
 import moment from 'moment';
+import ReactMarkdown from 'react-markdown';
 
-const MyNotes = () => {
+const MyNotes = ({ search }) => {
   const dispatch = useDispatch();
 
   const history = useHistory();
@@ -50,7 +51,7 @@ const MyNotes = () => {
     }
   };
   return (
-    <MainScreen title={`Welcome back ${userInfo.name}...`}>
+    <MainScreen title={`Welcome back ${userInfo?.name}...`}>
       <Link to="/createnote">
         <Button size="lg" style={{ marginLeft: 10, marginBottom: 6 }}>
           Create New Note
@@ -64,51 +65,56 @@ const MyNotes = () => {
       {loading && <Loading />}
       {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
 
-      {notes?.map(note => (
-        <Accordion key={note._id}>
-          <Card key={note._id} style={{ margin: 10 }}>
-            <Card.Header style={{ display: 'flex' }}>
-              <span style={MyNotesTitle}>
-                <Accordion.Toggle as={Card.Text} variant="link" eventKey="0">
-                  {note.title}
-                </Accordion.Toggle>
-              </span>
-              <div>
-                <Button href={`/note/${note._id}`}>Edit</Button>
+      {notes
+        ?.filter(searchFilteredNote =>
+          searchFilteredNote.title.toLowerCase().includes(search.toLowerCase()),
+        )
+        .map(note => (
+          <Accordion key={note._id}>
+            <Card key={note._id} style={{ margin: 10 }}>
+              <Card.Header style={{ display: 'flex' }}>
+                <span style={MyNotesTitle}>
+                  <Accordion.Toggle as={Card.Text} variant="link" eventKey="0">
+                    {note.title}
+                    {/*  */}
+                    <footer className="blockquote-footer">
+                      Created on{' '}
+                      <span>
+                        {moment(note.createdAt).format('YYYY-MM-DD')} at{' '}
+                        {moment(Date.now()).format('HH:mm:ss')} by{' '}
+                        {userInfo?.name}
+                      </span>
+                    </footer>
+                    {/*  */}
+                  </Accordion.Toggle>
+                </span>
+                <div>
+                  <Button href={`/note/${note._id}`}>Edit</Button>
 
-                <Button
-                  variant="danger"
-                  className="mx-2"
-                  onClick={() => deleteHandler(note._id)}
-                >
-                  Delete
-                </Button>
-              </div>
-            </Card.Header>
+                  <Button
+                    variant="danger"
+                    className="mx-2"
+                    onClick={() => deleteHandler(note._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Card.Header>
 
-            <Accordion.Collapse eventKey="0">
-              <Card.Body>
-                <h4>
-                  <Badge variant="success">Category - {note.category}</Badge>
-                </h4>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <h4>
+                    <Badge variant="success">Category - {note.category}</Badge>
+                  </h4>
 
-                <blockquote className="blockquote mb-0">
-                  {note.content}
-                  {/*  */}
-                  {/* <ReactMarkdown>{note.content}</ReactMarkdown> */}
-                  <footer className="blockquote-footer">
-                    Created on{' '}
-                    <span>
-                      {moment(note.createdAt).format('YYYY-MM-DD')} at{' '}
-                      {moment(Date.now()).format('HH:mm:ss')} by {userInfo.name}
-                    </span>
-                  </footer>
-                </blockquote>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
-      ))}
+                  <blockquote className="blockquote mb-0">
+                    <ReactMarkdown>{note.content}</ReactMarkdown>
+                  </blockquote>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+        ))}
     </MainScreen>
   );
 };

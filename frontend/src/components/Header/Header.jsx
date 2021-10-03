@@ -11,7 +11,7 @@ import css from './Header.module.css';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/actions/userActions';
 
-const Header = () => {
+const Header = ({ setSearch }) => {
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Header = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className={css.NavBar}>
           <Nav className="m-auto">
-            <Form inline>
+            <Form inline onChange={e => setSearch(e.target.value)}>
               <FormControl type="text" placeholder="Search" />
             </Form>
           </Nav>

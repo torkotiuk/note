@@ -21,7 +21,7 @@ function UpdateNote({ history, match }) {
   const { loading, error } = noteUpdate;
 
   const noteDelete = useSelector(state => state.noteDelete);
-  const { loading: deleteLoading, error: deleteError } = noteDelete;
+  const { error: deleteError } = noteDelete;
 
   const deleteHandler = id => {
     if (window.confirm('Are you sure you want to delete')) {
@@ -65,10 +65,10 @@ function UpdateNote({ history, match }) {
         <Card.Body>
           <Form onSubmit={updateHandler}>
             {/* form is starting */}
-            {/* {deleteError && (
+            {deleteError && (
               <ErrorMessage variant="danger">{deleteError}</ErrorMessage>
             )}
-            {deleteLoading && <Loading />} */}
+            {/* {deleteLoading && <Loading />} */}
 
             {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
             <Form.Group controlId="title">
