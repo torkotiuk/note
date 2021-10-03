@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateNoteAction } from '../../redux/actions/noteActions';
+import {
+  deleteNoteAction,
+  updateNoteAction,
+} from '../../redux/actions/noteActions';
 import ReactMarkdown from 'react-markdown';
 import { ErrorMessage, Loading, MainScreen } from '../../components';
 import axios from 'axios';
@@ -17,15 +20,15 @@ function UpdateNote({ history, match }) {
   const noteUpdate = useSelector(state => state.noteUpdate);
   const { loading, error } = noteUpdate;
 
-  // const noteDelete = useSelector(state => state.noteDelete);
-  // const { loading: deleteLoading, error: deleteError } = noteDelete;
+  const noteDelete = useSelector(state => state.noteDelete);
+  const { loading: deleteLoading, error: deleteError } = noteDelete;
 
-  // const deleteHandler = id => {
-  //   if (window.confirm('Are you sure you want to delete')) {
-  //     dispatch(deleteNoteAction(id));
-  //   }
-  //   history.push('/mynotes');
-  // };
+  const deleteHandler = id => {
+    if (window.confirm('Are you sure you want to delete')) {
+      dispatch(deleteNoteAction(id));
+    }
+    history.push('/mynotes');
+  };
 
   useEffect(() => {
     const fetching = async () => {
@@ -110,13 +113,13 @@ function UpdateNote({ history, match }) {
             <Button type="submit" variant="primary">
               Update Note
             </Button>
-            {/* <Button
+            <Button
               className="mx-2"
-              onClick={deleteHandler(match.params.id)}
+              onClick={() => deleteHandler(match.params.id)}
               variant="danger"
             >
               Delete Note
-            </Button> */}
+            </Button>
             {/* Finish of the form */}
           </Form>
         </Card.Body>

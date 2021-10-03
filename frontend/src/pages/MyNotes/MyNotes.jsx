@@ -5,6 +5,7 @@ import { Button, Card, Badge, Accordion } from 'react-bootstrap';
 import { MyNotesTitle } from './MyNotes.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteNoteAction, listNotes } from '../../redux/actions/noteActions';
+import moment from 'moment';
 
 const MyNotes = () => {
   const dispatch = useDispatch();
@@ -74,6 +75,7 @@ const MyNotes = () => {
               </span>
               <div>
                 <Button href={`/note/${note._id}`}>Edit</Button>
+
                 <Button
                   variant="danger"
                   className="mx-2"
@@ -96,9 +98,10 @@ const MyNotes = () => {
                   {/* <ReactMarkdown>{note.content}</ReactMarkdown> */}
                   <footer className="blockquote-footer">
                     Created on{' '}
-                    <cite title="Source Title">
-                      {note.createdAt.substring(0, 10)}
-                    </cite>
+                    <span>
+                      {moment(note.createdAt).format('YYYY-MM-DD')} at{' '}
+                      {moment(Date.now()).format('HH:mm:ss')} by {userInfo.name}
+                    </span>
                   </footer>
                 </blockquote>
               </Card.Body>

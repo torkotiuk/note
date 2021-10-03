@@ -27,10 +27,13 @@ export const listNotes = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get('/api/notes', config);
+    const sortedData = data.sort(
+      (a, b) => (a.createdAt < b.createdAt && 1) || -1,
+    );
 
     dispatch({
       type: NOTES_LIST_SUCCESS,
-      payload: data,
+      payload: sortedData,
     });
   } catch (error) {
     const message =
