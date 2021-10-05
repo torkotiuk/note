@@ -13,6 +13,8 @@ import {
   NOTE_UPDATE_REQUEST,
   NOTE_UPDATE_SUCCESS,
 } from '../constants/notesConstants';
+// import { fetchNotes } from '../../api/api';
+import api from '../../api/api';
 
 export const listNotes = () => async (dispatch, getState) => {
   try {
@@ -22,11 +24,8 @@ export const listNotes = () => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const config = {
-      headers: { Authorization: `Bearer ${userInfo.token}` },
-    };
+    const data = await api.fetchNotes(userInfo);
 
-    const { data } = await axios.get('/api/notes', config);
     const sortedData = data.sort(
       (a, b) => (a.createdAt < b.createdAt && 1) || -1,
     );
@@ -58,18 +57,7 @@ export const createNoteAction =
         userLogin: { userInfo },
       } = getState();
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-
-      const { data } = await axios.post(
-        `/api/notes/create`,
-        { title, content, category },
-        config,
-      );
+      const data = await api.addNote(userInfo, title, content, category);
 
       dispatch({
         type: NOTE_CREATE_SUCCESS,
@@ -98,18 +86,7 @@ export const updateNoteAction =
         userLogin: { userInfo },
       } = getState();
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-
-      const { data } = await axios.put(
-        `/api/notes/${id}`,
-        { title, content, category },
-        config,
-      );
+      const data = await api.updateNote(userInfo, id, title, content, category);
 
       dispatch({
         type: NOTE_UPDATE_SUCCESS,
@@ -137,13 +114,7 @@ export const deleteNoteAction = id => async (dispatch, getState) => {
       userLogin: { userInfo },
     } = getState();
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.delete(`/api/notes/${id}`, config);
+    const data = await api.removeNote(userInfo, id);
 
     dispatch({
       type: NOTE_DELETE_SUCCESS,
