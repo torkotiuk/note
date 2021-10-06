@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { URL } from './settings';
+// import { URL } from './settings';
 
 const fetchNotes = async userInfo => {
   const config = {
     headers: { Authorization: `Bearer ${userInfo.token}` },
   };
 
-  const { data } = await axios.get(`${URL}/api/notes`, config);
+  const { data } = await axios.get(`/api/notes`, config);
   return data;
 };
 

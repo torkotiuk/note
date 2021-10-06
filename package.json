@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "npm run start:dev --prefix backend",
+    "server": "nodemon server.js",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -15,7 +15,17 @@
   "keywords": [],
   "author": "Andrii Torkotiuk <torkotiuk@gmail.com>",
   "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.6"
+  },
   "devDependencies": {
+    "nodemon": "^2.0.12",
     "concurrently": "^6.2.1"
   }
 }
