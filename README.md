@@ -1,6 +1,6 @@
 # notes24 site
 
-This is my own educational project with back- & frontend deployed to heroku
+This is my own educational project with back- & frontend deployed on heroku
 
 Main stack:
 
